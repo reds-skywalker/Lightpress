@@ -43,12 +43,26 @@ export default function useGameLogic() {
     setTimeout(() => setButtonFeedback({ id: null, type: null }), 280);
   };
 
-  const finishGame = (msg) => {
+  const finishGame = async (msg) => {
     clearAllTimers();
     setGameRunning(false);
     setLockedBoard(true);
     setActiveButton(null);
     setMessage(msg);
+try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/scores`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: "Eduardo_Dev", // Aquí podrías usar el nombre del usuario
+          score: stateRef.current.score,
+          level: stateRef.current.level
+        })
+      });
+      console.log("Puntaje guardado exitosamente");
+    } catch (error) {
+      console.error("Error al conectar con la API:", error);
+    }
   };
 
   const getRoundTime = (currentLevel) => {
