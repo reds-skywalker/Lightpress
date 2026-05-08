@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+  pre_build:
+    commands:
+      - echo "Iniciando proceso de Integración Continua (CI)..."
+      - echo "Verificando versiones instaladas:"
+      - node -v
+      - docker --version
+  build:
+    commands:
+      - echo "Construyendo imágenes de Docker para Frontend y Backend..."
+      # Usamos build para validar que el código compila correctamente
+      - docker compose build
+  post_build:
+    commands:
+      - echo "¡Construcción exitosa! El código está listo para producción."
+

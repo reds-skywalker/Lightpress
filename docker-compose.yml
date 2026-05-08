@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: lightpress-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - lightpress-net
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    container_name: lightpress-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - lightpress-net
+    restart: unless-stopped
+
+networks:
+  lightpress-net:
+    driver: bridge
